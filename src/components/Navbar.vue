@@ -55,19 +55,21 @@ export default {
   name: "Navbar",
   computed: {
     isUserLoggedIn() {
-      return this.$store.state.user.is_logged_in;
+      console.log(this.$store.state.user.is_logged_in);
+      console.log(JSON.parse(localStorage.getItem('user')));
+      const isUser = this.$store.state.user.is_logged_in || !!JSON.parse(localStorage.getItem('user'));
+      console.log('Is User from Navbar: ', isUser);
+      return isUser;
     },
   },
   methods: {
     togleLogin() {
-      if (!this.isUserLoggedIn) {
-        return this.$router.push("Login");
-      } else {
-        this.$router.push("Login");
-
-        return this.$store.dispatch("logoutUser");
-      }
+      if (this.isUserLoggedIn) {
+        this.$store.dispatch("logoutUser");
+        localStorage.removeItem('user');
+        this.$router.push({ name: "Login" });
+      } 
     },
-  },
+  }
 };
 </script>

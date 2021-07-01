@@ -6,13 +6,13 @@
       v-for="movie in movies"
       :key="movie.imdbID"
     >
-      <card :movieData="movie" />
+      <Card :movieData="movie" />
     </div>
   </div>
 </template>
 
 <script>
-import Card from "../components/card.vue";
+import Card from "../components/Card.vue";
 import axios from "axios";
 
 export default {
@@ -25,7 +25,8 @@ export default {
   },
   computed: {
     movies() {
-      return this.$store.state.movies;
+      console.log('Home Computed');
+      return this.$store.getters.getMovies;
     },
   },
   methods: {

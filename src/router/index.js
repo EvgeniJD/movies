@@ -11,10 +11,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if (!store.state.user.is_logged_in) next({ name: 'Login' })
-      else next()
-    }
   },
   {
     path: '/login',
@@ -25,19 +21,11 @@ const routes = [
     path: '/movie/:movieId',
     name: 'Movie',
     component: Movie,
-    beforeEnter: (to, from, next) => {
-      if (!store.state.user.is_logged_in) next({ name: 'Login' })
-      else next()
-    }
   },
   {
     path: '/settings',
     name: 'User',
     component: User,
-    beforeEnter: (to, from, next) => {
-      if (!store.state.user.is_logged_in) next({ name: 'Login' })
-      else next()
-    }
   },
   {
     path: "/:catchAll(.*)",
@@ -49,6 +37,24 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const isAuthenticated = store.state.user.is_logged_in || !!user;
+
+  console.log('BeforeRoute: ', isAuthenticated);
+  console.log('To Name: ', to.name);
+
+  if (isAuthenticated && to.name === 'Login') {
+    next({ name: 'Home' });
+  } else if (!isAuthenticated && to.name !== 'Login') {
+    next({ name: 'Login' });
+  } else {
+    next();
+  }
+
+
 })
 
 export default router

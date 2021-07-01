@@ -2,24 +2,20 @@
   <div
     class="mx-auto p-10"
   >
-    <movie-component :movie-data=movie></movie-component>
+    <MovieDetails :movieData="movie"></MovieDetails>
   </div>
 </template>
 
 <script>
-import MovieComponent from "../components/Movie.vue";
+import MovieDetails from "../components/MovieDetails.vue";
 
 export default {
   name: "Movie",
-  components: { MovieComponent },
-  methods: {
-  },
+  components: { MovieDetails },
   computed: {
     movie() {
-      return this.$store.getters.getMovieById(this.$route.params.movieId);
+      return this.$store.getters.getMovieById(this.$route.params.movieId) || {};
     },
-  },
-  mounted() {
   },
 };
 </script>

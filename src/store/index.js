@@ -14,7 +14,7 @@ export default new Vuex.Store({
     toggleLike(state, {index}) {
       var cloning = {...state.movies[index]};
 
-      cloning.likes == 0 ? cloning.likes = 1 : cloning.likes--;
+      cloning.likes == 0 ? cloning.likes = 1 : cloning.likes = 0;
       state.movies[index] = cloning;
     },
     toggleBookMark(state, {index}) {
@@ -28,7 +28,6 @@ export default new Vuex.Store({
     },
     logoutUser(state) {
       state.user.is_logged_in = false ;
-      state.movies = [];
     },
     updateLoggedUserProfile(state, payload) {
       state.user.email = payload.email;
@@ -64,6 +63,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getMovies: (state) => {
+      return state.movies;
+    },
     getMovieById: (state) => (id) => {
       return state.movies.find(movie => movie.imdbID == id)
     },
